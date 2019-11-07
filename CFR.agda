@@ -50,10 +50,10 @@ u-tree : (tree : GameTree infoset-size) → (policy : Policy infoset-size) → �
 u-tree (Terminal reward) _ = reward
 u-tree (Response id branches wf) policy with policy id
 u-tree (Response id branches wf) policy | σ // wf-elem // wf-dist =
-  Vec-foldl2 _ (λ s a b → s Rat.+ u-tree a policy Rat.* b) 0ℚ branches σ
+  Rat.- Vec-foldl2 _ (λ s a b → s Rat.+ u-tree a policy Rat.* b) 0ℚ branches σ
 
 u : {tree : GameTree infoset-size} → (node : Node tree) → (policy : Policy infoset-size) → ℚ
-u (here tree) policy = u-tree tree policy
+u (here tree) policy = Rat.- u-tree tree policy
 u (there id wf mem node) = u node
 
 cfr-reach : {tree : GameTree infoset-size} → (node : Node tree) → (policy : Policy infoset-size) → ℚ
